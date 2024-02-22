@@ -2,12 +2,12 @@ import numpy as np
 import pandas as pd
 from sklearn.model_selection import KFold
 
-input_file = snakemake.input["input_file"]
+input_files = snakemake.input["input_file"]
 test_files = snakemake.output["test_files"]
 train_files = snakemake.output["train_files"]
 n_folds = snakemake.params["n_folds"]
 
-data_table = pd.read_csv(input_file)
+data_table = pd.read_csv(input_files)
 
 # Initialize KFold
 kf = KFold(n_splits=n_folds, shuffle=True, random_state=42)
