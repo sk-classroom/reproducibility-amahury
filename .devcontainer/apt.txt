@@ -1,0 +1,5 @@
+git
+ncdu
+wget
+curl
+graphviz
