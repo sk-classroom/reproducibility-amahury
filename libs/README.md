@@ -1,0 +1,3 @@
+- Put your custom libraries under this directory.
+- Maintain the libraries while working on the project.
+- Keep in mind that the libraries should be reusable and not specific to the project.
