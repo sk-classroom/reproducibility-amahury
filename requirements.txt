@@ -10,3 +10,4 @@ nbconvert
 requests
 jupytext
 scikit-learn
+snakemake
