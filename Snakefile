@@ -33,7 +33,7 @@ rule preprocess_data:
     input:
         RAW_DATA_FILE
     output:
-        PREPROCESSED_DATA_FILE
+        PROCESSED_DATA_FILE
     shell:
         "python3 workflow/preprocessing.py {input} {output}"
 
@@ -43,9 +43,9 @@ TEST_FILE = j(PREP_DATA_DIR, "test_data~titanic_fold~{fold}.csv")
 
 rule train_test_data_split:
     input:
-        input_files = PREPROCESSED_DATA_FILE
+        input_files = PROCESSED_DATA_FILE
     output:
-        train_files = expand(TRAIN_FILE, fold=range(N_FOLDS))
+        train_files = expand(TRAIN_FILE, fold=range(N_FOLDS)),
         test_files = expand(TEST_FILE, fold=range(N_FOLDS))
     params:
         n_folds = N_FOLDS
