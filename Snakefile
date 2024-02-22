@@ -31,11 +31,11 @@ PROCESSED_DATA_FILE = j(PREP_DATA_DIR, "preprocessed_data~titanic.csv")
 
 rule preprocess_data:
     input:
-        RAW_DATA_FILE
+        ...
     output:
-        PROCESSED_DATA_FILE
+        ...
     shell:
-        "python workflow/preprocessing.py {input} {output}"
+        ...
 
 N_FOLDS = 5
 TRAIN_FILE = j(PREP_DATA_DIR, "train_data~titanic_fold~{fold}.csv")
@@ -43,14 +43,14 @@ TEST_FILE = j(PREP_DATA_DIR, "test_data~titanic_fold~{fold}.csv")
 
 rule train_test_data_split:
     input:
-        input_file = PROCESSED_DATA_FILE
+        input_file = ...
     output:
-        train_files = expand(TRAIN_FILE, fold = range(N_FOLDS)),
-        test_files = expand(TEST_FILE, fold = range(N_FOLDS))
+        train_files = ...
+        test_files = ...
     params:
         n_folds = N_FOLDS
     script:
-        "workflow/train_test_data_split.py"
+        ...
 
 
 # =============================
@@ -64,13 +64,13 @@ MODEL_FILE = j(DERIVED_DIR, "model~{model}_data~titanic_fold~{fold}.pkl")
 
 rule train:
     input:
-        train_file = TRAIN_FILE
+        train_file = ...
     output:
-        model_file = MODEL_FILE
+        model_file = ...
     params:
-        model_name = lambda wildcards: wildcards.model
+        model_name = ...
     script:
-        "workflow/train.py"
+        ...
 
 
 # =============================
@@ -82,23 +82,22 @@ EVALUATION_RESULTS_FILE = j(DERIVED_DIR, "results_model~{model}_data~titanic_fol
 
 rule test:
     input:
-        test_file = TEST_FILE,
-        model_file = MODEL_FILE
+        test_file = ...,
+        model_file = ...
     output:
-        output_file = TEST_PRED_FILE
+        output_file = ...
     script:
-        "workflow/test.py"
+        ...
 
 rule evaluation:
     input:
-        test_file = TEST_FILE,
-        test_pred_file = TEST_PRED_FILE
+        ...
     output:
-        output_file = EVALUATION_RESULTS_FILE
+        ...
     params:
-        model_name = lambda wildcards: wildcards.model
+        ...
     script:
-        "workflow/evaluation.py"
+        ...
 
 # =============================
 # Plot
@@ -107,11 +106,11 @@ rule evaluation:
 FIG_FILE = j(FIG_DIR, "aucroc_curve~data~titanic.png")
 rule plot:
     input:
-        input_files = expand(EVALUATION_RESULTS_FILE, fold=range(N_FOLDS), model=MODEL_LIST)
+        ...
     output:
         output_file = FIG_FILE
     script:
-        "workflow/plot.py"
+        ...
 
 # =============================
 # All
