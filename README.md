@@ -1,13 +1,47 @@
-# asc-data-preprocessing
+# Reproducibility
+
+In this module, we will learn how to use Snakemake for reproducible research.
 
 # Task
 
-1. Do `exercise/excercise_0*.ipynb` by following the instruction in the comment out. They are not grading items. So feel free to change as you wish.
+Implement the workflow described below:
+1. **Data Download**: Downloads the Titanic dataset from a URL to a raw data directory.
+2. **Data Preprocessing**: Imputes missing values and encodes categorical variables, saving the processed data in a directory.
+3. **Train-Test Split**: Splits the data into K folds for cross-validation, storing train and test datasets per fold.
+4. **Model Training**: Trains Logistic Regression, Random Forest, SVC, and KNeighborsClassifier models per fold, saving them in a directory.
+5. **Model Testing**: Uses models to predict on test datasets, saving predictions.
+6. **Evaluation**: Computes AUC ROC scores for model performance, saving results.
+7. **Plotting**: Generates and saves a plot comparing AUC ROC scores across models and folds.
 
-2. Implement the functions in `assignments/assignment.py`. This is the grading item.
+
+# Tips for Snakemake
+
+Snakemake is a powerful tool for creating reproducible and scalable data analyses. Workflows are defined in a `Snakefile` which specifies a series of rules. Each rule defines how to create a set of output files from a set of input files.
+
+### Basic Usage
+
+To simply check what Snakemake would do without actually executing the workflow, you can use the `-n` or `--dry-run` option along with the `-p` option to print the shell commands that would be executed:
+```bash
+snakemake -np
+```
+
+To visualize the workflow as a computation graph, Snakemake provides a convenient way to generate a Directed Acyclic Graph (DAG) of the tasks. This can be particularly useful for understanding the dependencies between tasks and for debugging purposes. To create a plot of the computation graph, you can use the following command:
+
+```bash
+snakemake --dag all | dot -Tpng > dag.png
+```
+which will generate a figure like
+
+![dag.png](./dag.png)
 
 
-# FAQ
+To run the workflow, run
+```bash
+snakemake --cores 1 all
+```
+This means that snakemake will execute the rule `all` by using one CPU core. You can specify the rule to another rule, and use more CPUs if available.
+
+# Git FAQ
 
 1. `No Module <...> found` when running a script although the notebooks and interactive mode work.
 
